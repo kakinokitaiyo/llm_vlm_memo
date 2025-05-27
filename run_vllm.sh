@@ -18,7 +18,7 @@ while [[ $# -gt 0 ]]; do
                 qwen2-7b)
                     MODEL=Qwen/Qwen2-VL-7B-Instruct
                     SERVEDMODEL=Qwen2-VL-7B-Instruct
-                    OPTIONS+=" --gpu_memory_utilization 0.95"
+                    OPTIONS+=" --gpu_memory_utilization 0.9"
                     ;;
                 qwen2.5)
                     MODEL=Qwen/Qwen2.5-VL-3B-Instruct
@@ -124,7 +124,6 @@ set -x
 docker run -it --rm \
   ${GPUOPTION}\
   --ipc=host --network=host \
-  --name vllm_api_server \
   -v ${CACHEDIR}:/root/.cache \
   -v ${SCRIPT_DIR}/vllm:/vllm \
   ${IMAGE_NAME} \

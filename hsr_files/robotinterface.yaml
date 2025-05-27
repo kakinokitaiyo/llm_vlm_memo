@@ -1,0 +1,52 @@
+robot_model:
+  name: hsrb
+  url: 'file:///userdir/irsl_hsr/hsrb_body/hsrbb.body'
+  import: 'file:///userdir/irsl_hsr/irsl_test/hsrb_model.py'
+  class: HSRB
+
+mobile_base:
+  type: geometry_msgs/Twist
+  topic: /hsrb/command_velocity
+  baselink: Root
+  base_frame: base_link
+  map_frame: map
+  move_base_action: move_base/move
+
+joint_groups:
+  -
+    name: arm
+    topic: /hsrb/arm_trajectory_controller/follow_joint_trajectory
+    type: action
+    joint_names: ["arm_lift_joint", "arm_flex_joint", "arm_roll_joint", "wrist_flex_joint", "wrist_roll_joint"]
+  -
+    name: head
+    topic: /hsrb/head_trajectory_controller/follow_joint_trajectory
+    type: action
+    joint_names: ["head_pan_joint", "head_tilt_joint"]
+  -
+    name: gripper
+    topic: /hsrb/gripper_controller/follow_joint_trajectory
+    type: action
+    joint_names: ['hand_motor_joint']
+  -
+    name: default
+    type: combined
+    groups: ['arm', 'head']
+
+devices:
+  -
+    topic: /hsrb/joint_states
+    class: JointState
+    name: joint_state
+  -
+    topic: /hsrb/arm_trajectory_controller/state
+    class: JointTrajectoryState
+    name: arm_joint_trajectory_state
+  -
+    topic: /hsrb/head_trajectory_controller/state
+    class: JointTrajectoryState
+    name: head_joint_trajectory_state
+  -
+    topic: /hsrb/wrist_wrench/compensated
+    type: geometry_msgs/WrenchStamped
+    name: wrist_wrench

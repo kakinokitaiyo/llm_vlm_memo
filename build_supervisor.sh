@@ -1,0 +1,1 @@
+docker build -t vllm-openai-supervisor -f Dockerfile.add_supervisor .

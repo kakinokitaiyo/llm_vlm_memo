@@ -69,6 +69,10 @@ while [[ $# -gt 0 ]]; do
                     MODEL=llava-hf/llava-onevision-qwen2-0.5b-ov-hf
                     SERVEDMODEL=llava-onevision-qwen2-0.5b-ov-hf
                     ;;
+                llava-onevision-qwen2-7b)
+                    MODEL=llava-hf/llava-onevision-qwen2-7b-ov-hf
+                    SERVEDMODEL=llava-onevision-qwen2-7b-ov-hf
+                    ;;
                 # ultravox)
                 #     MODEL=fixie-ai/ultravox-v0_5-llama-3_2-1b
                 #     SERVEDMODEL=ultravox-v0_5-llama-3_2-1b
@@ -102,6 +106,11 @@ while [[ $# -gt 0 ]]; do
             ;;
         -o|--offload)
             OPTIONS+=" --cpu_offload_gb $2"
+            shift
+            shift
+            ;;
+        -g|--gpuid)
+            GPUOPTION="--gpus device=$2"
             shift
             shift
             ;;

@@ -1,0 +1,31 @@
+FROM vllm/vllm-openai:latest
+RUN echo "deb http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc` main restricted\n\
+deb-src http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc` main restricted\n\
+deb http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc`-updates main restricted\n\
+deb-src http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc`-updates main restricted\n\
+deb http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc` universe\n\
+deb-src http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc` universe\n\
+deb http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc`-updates universe\n\
+deb-src http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc`-updates universe\n\
+deb http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc` multiverse\n\
+deb-src http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc` multiverse\n\
+deb http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc`-updates multiverse\n\
+deb-src http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc`-updates multiverse\n\
+deb http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc`-backports main restricted universe multiverse\n\
+deb-src http://jp.archive.ubuntu.com/ubuntu/ `lsb_release -sc`-backports main restricted universe multiverse\n\
+deb http://security.ubuntu.com/ubuntu `lsb_release -sc`-security main restricted\n\
+deb-src http://security.ubuntu.com/ubuntu `lsb_release -sc`-security main restricted\n\
+deb http://security.ubuntu.com/ubuntu `lsb_release -sc`-security universe\n\
+deb-src http://security.ubuntu.com/ubuntu `lsb_release -sc`-security universe\n\
+deb http://security.ubuntu.com/ubuntu `lsb_release -sc`-security multiverse\n\
+deb-src http://security.ubuntu.com/ubuntu `lsb_release -sc`-security multiverse\n"> /etc/apt/sources.list
+
+
+RUN apt-get update && apt-get install -y openssh-server supervisor
+RUN mkdir -p /var/run/sshd /var/log/supervisor
+
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+RUN pip install pyasynchat
+
+CMD ["/usr/bin/supervisord"]

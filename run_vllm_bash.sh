@@ -26,4 +26,5 @@ docker run -it --rm ${GPUOPTION} \
   -v ${CACHEDIR}:/root/.cache \
   -v ${SCRIPT_DIR}/vllm:/vllm \
   -v ${SCRIPT_DIR}:/userdir -w /userdir \
+  --name vllm_bash \
   --entrypoint="" ${IMAGE_NAME} bash
